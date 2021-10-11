@@ -1,0 +1,1 @@
+SPRITE chicken_sprite "sprite/chicken.png" 4 4 FAST 6
