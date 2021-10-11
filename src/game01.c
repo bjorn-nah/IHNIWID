@@ -72,14 +72,16 @@ static void updatePhysic()
 	SPR_setPosition(chicken, fix32ToInt(posX), fix32ToInt(posY));
 }
 
+static void chickenAnimSpeed(){
+	if (movY < 0){
+		chicken->timer = 3;
+	}
+	else chicken->timer = 8;
+}
+
 static void updateAnim()
 {
-	/*
-	if (movY < 0){
-		chicken->timer = 5;
-	}
-	else chicken->timer = 10;
-	*/
+	SPR_setFrameChangeCallback(chicken, chickenAnimSpeed);
 }
 
 static void joyEvent(u16 joy, u16 changed, u16 state)
