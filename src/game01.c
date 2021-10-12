@@ -7,6 +7,7 @@
 #define MIN_POSY            FIX32(0)
 #define GRAVITY     		FIX32(0.16)
 #define FLY_SPEED			FIX32(4.2L)
+#define PHONE_MUMBER		2
 
 static void updatePhysic();
 static void updateAnim();
@@ -20,9 +21,18 @@ fix32 movY;
 
 Sprite* chicken;
 
+// enemies sprites
+Sprite* phones[PHONE_MUMBER];
+// enemies positions and move direction
+fix32 phonesPosX[PHONE_MUMBER];
+fix32 phonesPosY[PHONE_MUMBER];
+fix32 phonesMovX[PHONE_MUMBER];
+fix32 phonesMovY[PHONE_MUMBER];
+
 int game01()
 {
 	u16 palette[64];
+	u16 i;
 	
 	SPR_init();
 	
@@ -31,10 +41,20 @@ int game01()
     posY = MAX_POSY;
 	movY = FIX32(0);
 	
+	phonesPosX[0] = FIX32(64);
+	phonesPosY[0] = FIX32(64);
+	phonesPosX[1] = FIX32(96);
+	phonesPosY[1] = FIX32(64);
+	
 	// init chicken sprite
     chicken = SPR_addSprite(&chicken_sprite, fix32ToInt(posX), fix32ToInt(posY), TILE_ATTR(PAL0, TRUE, FALSE, FALSE));
 	memcpy(&palette[0], chicken_sprite.palette->data, 16 * 2);
 	VDP_setPaletteColors(0, palette, 16);
+	
+	// init phone sprites
+	for(i=0; i < PHONE_MUMBER; i++){
+		phones[i] = SPR_addSprite(&phone_sprite, fix32ToInt(phonesPosX[i]), fix32ToInt(phonesPosY[i]), TILE_ATTR(PAL0, TRUE, FALSE, FALSE));
+	}
 	
 	JOY_setEventHandler(joyEvent);
 	
